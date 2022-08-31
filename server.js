@@ -17,11 +17,11 @@ app.get("/", (req, res) => {
 });
 
 //call sync() method
-const db = require("./app/models");
+const db = require("./models");
 db.sequelize.sync();
 
 //Connecting with database
-require("./app/routers/course.routers")(app)
+require("./routers/course.routers")(app)
 // set port, listen for requests
 //const PORT = process.env.PORT || 3306;
 const PORT = process.env.PORT || 8080;
