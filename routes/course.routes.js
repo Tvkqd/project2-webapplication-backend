@@ -4,16 +4,15 @@ module.exports = app => {
     // Create 
     router.post("/", courses.create);
     // Retrieve all 
-    router.get("/", courses.findAll);
-    // Retrieve all published 
-    router.get("/published", courses.findAllPublished);
+    //router.get("/", courses.findAll);
     // Retrieve a single with id
-    router.get("/:id", courses.findOne);
+    router.get("/:course_number", courses.findOne);
     // Update with id
-    router.put("/:id", courses.update);
+    router.put("/:course_number", courses.update);
     // Delete with id
-    router.delete("/:id", courses.delete);
+    router.delete("/:course_number", courses.delete);
     // Delete all
     router.delete("/", courses.deleteAll);
-    app.use('/course-t1', router);
+    //app.use('/course-t1', router);
+    app.use('/api/courses', router);
   };
