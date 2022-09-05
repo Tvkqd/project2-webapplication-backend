@@ -3,8 +3,8 @@ const Course = db.courses;
 const Op = db.Sequelize.Op;
 // Create and Save 
 exports.create = (req, res) => {
-        // Validate request
-    if (!req.body.title) {
+        // Valcourse_numberate request
+    if (!req.body.course_number) {
         res.status(400).send({
         message: "Content can not be empty!"
         });
@@ -12,9 +12,12 @@ exports.create = (req, res) => {
     }
     // Create
     const course = {
-        title: req.body.title,
+        dept: req.body.dept,
         description: req.body.description,
-        published: req.body.published ? req.body.published : false
+        course_number: req.body.course_number,
+        level: req.body.level,
+        hours: req.body.hours,
+        name: req.body.name
     };
     // Save in the database
     Course.create(course)
@@ -30,8 +33,8 @@ exports.create = (req, res) => {
 };
 // Retrieve all courses from the database.
 exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+    const course_number = req.query.course_number;
+    var condition =course_number ? {course_number: { [Op.like]: `%$course_number}%` } } : null;
     Course.findAll({ where: condition })
         .then(data => {
         res.send(data);
@@ -43,30 +46,30 @@ exports.findAll = (req, res) => {
         });
         });
 };
-// Find a single course with an id
+// Find a single course with an course_number
 exports.findOne = (req, res) => {
-    const id = req.params.id;
-    Course.findByPk(id)
+    const course_number = req.params.course_number;
+    Course.findByPk(course_number)
       .then(data => {
         if (data) {
           res.send(data);
         } else {
           res.status(404).send({
-            message: `Cannot find Course with id=${id}.`
+            message: `Cannot find Course with course_number=${course_number}.`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Course with id=" + id
+          message: "Error retrieving Course with course_number=" + course_number
         });
       });
 };
-// Update by the id in the request
+// Update by the course_number in the request
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const course_number = req.params.course_number;
     Course.update(req.body, {
-      where: { id: id }
+      where: { course_number: course_number }
     })
       .then(num => {
         if (num == 1) {
@@ -75,21 +78,21 @@ exports.update = (req, res) => {
           });
         } else {
           res.send({
-            message: `Cannot update Course with id=${id}. Maybe Course was not found or req.body is empty!`
+            message: `Cannot update Course with course_number=${course_number}. Maybe Course was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error updating Course with id=" + id
+          message: "Error updating Course with course_number=" + course_number
         });
       });
 };
-// Delete with the specified id in the request
+// Delete with the specified course_number in the request
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const course_number = req.params.course_number;
     Course.destroy({
-      where: { id: id }
+      where: { course_number: course_number }
     })
       .then(num => {
         if (num == 1) {
@@ -98,13 +101,13 @@ exports.delete = (req, res) => {
           });
         } else {
           res.send({
-            message: `Cannot delete Course with id=${id}. Maybe Course was not found!`
+            message: `Cannot delete Course with course_number=${course_number}. Maybe Course was not found!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Could not delete Course with id=" + id
+          message: "Could not delete Course with course_number=" + course_number
         });
       });
 };
@@ -123,17 +126,4 @@ exports.deleteAll = (req, res) => {
               err.message || "Some error occurred while removing all courses."
           });
         });
-};
-// Find all published Tutorials
-exports.findAllPublished = (req, res) => {
-    Course.findAll({ where: { published: true } })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving courses."
-      });
-    });
 };
