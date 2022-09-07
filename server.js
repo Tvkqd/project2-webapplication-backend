@@ -3,8 +3,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 var corsOptions = {
-  origin: "http://localhost:3001/course-t1"
-  //origin: "http://localhost:8081"
+  //origin: "http://localhost:3001/course-t1"
+  origin: "http://localhost:8081"
 };
 app.use(cors(corsOptions));
 // parse requests of content-type - application/json
@@ -18,15 +18,16 @@ app.get("/", (req, res) => {
 
 //call sync() method
 const db = require("./models");
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync db.");
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and re-sync db.");
+// });
+db.sequelize.sync();
 
 //Connecting with database
 require("./routes/course.routes")(app)
 // set port, listen for requests
-const PORT = process.env.PORT || 3001;
-//const PORT = process.env.PORT || 8080;
+//const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
