@@ -31,6 +31,7 @@ exports.create = (req, res) => {
         });
         });
 };
+
 // Retrieve all courses from the database.
 exports.findAll = (req, res) => {
     const course_number = req.query.course_number;
@@ -46,6 +47,37 @@ exports.findAll = (req, res) => {
         });
       });
 };
+
+// Retrieve all courses from the database in a specific department.
+exports.findDept = (req, res) => {
+  const dept = req.params.dept;
+  Course.findAll({ where: {dept: dept} })
+      .then(data => {
+      res.send(data);
+      })
+      .catch(err => {
+      res.status(500).send({
+          message:
+          err.message || "Some error occurred while retrieving courses."
+      });
+    });
+};
+
+// Retrieve all courses from the database with a specific title.
+exports.findName = (req, res) => {
+  const name = req.params.name;
+  Course.findAll({ where: {name: name} })
+      .then(data => {
+      res.send(data);
+      })
+      .catch(err => {
+      res.status(500).send({
+          message:
+          err.message || "Some error occurred while retrieving courses."
+      });
+    });
+};
+
 // Find a single course with a course_number
 exports.findOne = (req, res) => {
     const course_number = req.params.course_number;
