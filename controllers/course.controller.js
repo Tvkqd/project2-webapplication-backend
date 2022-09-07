@@ -44,9 +44,9 @@ exports.findAll = (req, res) => {
             message:
             err.message || "Some error occurred while retrieving courses."
         });
-        });
+      });
 };
-// Find a single course with an course_number
+// Find a single course with a course_number
 exports.findOne = (req, res) => {
     const course_number = req.params.course_number;
     Course.findByPk(course_number)
@@ -118,7 +118,7 @@ exports.deleteAll = (req, res) => {
         truncate: false
       })
         .then(nums => {
-          res.send({ message: `${nums} Courses were deleted successfully!` });
+          res.send({ message: `${nums} Course(s) were deleted successfully!` });
         })
         .catch(err => {
           res.status(500).send({

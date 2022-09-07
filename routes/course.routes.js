@@ -4,7 +4,7 @@ module.exports = app => {
     // Create 
     router.post("/", courses.create);
     // Retrieve all 
-    //router.get("/", courses.findAll);
+    router.get("/", courses.findAll);
     // Retrieve a single with id
     router.get("/:course_number", courses.findOne);
     // Update with id
