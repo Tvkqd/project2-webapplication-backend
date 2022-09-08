@@ -1,5 +1,12 @@
 module.exports = (sequelize, Sequelize) => {
   const Course = sequelize.define("course", {
+    /*Change DB TYPES, make Description larger*/
+    id: {
+      type: Sequelize.INTEGER, 
+      autoIncrement: true,
+      primaryKey: true
+    },
+
     dept: {
       type: Sequelize.STRING
     },
