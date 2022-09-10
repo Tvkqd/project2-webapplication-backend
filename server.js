@@ -21,9 +21,11 @@ const db = require("./models");
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
+
 db.sequelize.sync().then(() => {
   console.log("Re-sync db.");
 });
+db.sequelize.sync();
 
 //Connecting with database
 require("./routes/course.routes")(app)
