@@ -18,15 +18,18 @@ app.get("/", (req, res) => {
 
 //call sync() method
 const db = require("./models");
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync db.");
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and re-sync db.");
+// });
+db.sequelize.sync().then(() => {
+  console.log("Re-sync db.");
 });
 
 //Connecting with database
 require("./routes/course.routes")(app)
 // set port, listen for requests
-//const PORT = process.env.PORT || 3001;
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
+//const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

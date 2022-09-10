@@ -4,7 +4,7 @@ module.exports = app => {
     // Create 
     router.post("/", courses.create);
     // Retrieve all 
-    //router.get("/", courses.findAll);
+    router.get("/", courses.findAll);
     // Retrieve a single with id
     router.get("/:course_number", courses.findOne);
     // Update with id
@@ -13,6 +13,5 @@ module.exports = app => {
     router.delete("/:course_number", courses.delete);
     // Delete all
     router.delete("/", courses.deleteAll);
-    //app.use('/course-t1', router);
-    app.use('/api/courses', router);
+    app.use('/courses-t1', router);
   };
