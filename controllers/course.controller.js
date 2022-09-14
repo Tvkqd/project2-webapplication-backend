@@ -122,9 +122,9 @@ exports.update = (req, res) => {
 };
 // Delete with the specified course_number in the request
 exports.delete = (req, res) => {
-    const course_number = req.params.course_number;
+    const id = req.params.id;
     Course.destroy({
-      where: { course_number: course_number }
+      where: { id: id }
     })
       .then(num => {
         if (num == 1) {
@@ -132,30 +132,16 @@ exports.delete = (req, res) => {
             message: "Course was deleted successfully!"
           });
         } else {
+          console.log("error: " + num)
           res.send({
-            message: `Cannot delete Course with course_number=${course_number}. Maybe Course was not found!`
+            message: `Cannot delete Course with id=${id}. Maybe Course was not found!`
           });
         }
       })
       .catch(err => {
+        console.log("error: " + err)
         res.status(500).send({
-          message: "Could not delete Course with course_number=" + course_number
+          message: "Could not delete Course with id=" + id
         });
       });
-};
-// Delete all from the database.
-exports.deleteAll = (req, res) => {
-    Course.destroy({
-        where: {},
-        truncate: false
-      })
-        .then(nums => {
-          res.send({ message: `${nums} Course(s) were deleted successfully!` });
-        })
-        .catch(err => {
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while removing all courses."
-          });
-        });
 };

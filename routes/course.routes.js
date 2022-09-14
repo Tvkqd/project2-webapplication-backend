@@ -15,8 +15,6 @@ module.exports = app => {
     // Update with course_number
     router.put("/:course_number", courses.update);
     // Delete with course_number
-    router.delete("/:course_number", courses.delete);
-    // Delete all
-    router.delete("/", courses.deleteAll);
-    app.use('/courses-t1', router);
+    router.delete("/:id", courses.delete);
+    app.use('/course-t1', router);
   };
