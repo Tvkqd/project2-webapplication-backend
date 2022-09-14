@@ -4,7 +4,8 @@ const cors = require("cors");
 const app = express();
 var corsOptions = {
   //origin: "http://localhost:3001/course-t1"
-  origin: "http://localhost:8081"
+  //Need to be matched with html-common.js of the frontend
+  origin: "http://localhost:8080"
 };
 app.use(cors(corsOptions));
 // parse requests of content-type - application/json
@@ -26,8 +27,8 @@ db.sequelize.sync();
 //Connecting with database
 require("./routes/course.routes")(app)
 // set port, listen for requests
-//const PORT = process.env.PORT || 3001;
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
+//const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
