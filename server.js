@@ -3,10 +3,12 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 var corsOptions = {
-  //origin: "http://localhost:3001/course-t1"
+//  origin: "http://localhost/course-t1"
   origin: "http://localhost:8080"
 };
 app.use(cors(corsOptions));
+app.options('*',cors());
+
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
