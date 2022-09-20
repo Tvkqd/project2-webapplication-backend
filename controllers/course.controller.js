@@ -66,7 +66,7 @@ exports.findDept = (req, res) => {
 // Retrieve all courses from the database with a specific title.
 exports.findName = (req, res) => {
   const name = req.params.name;
-  Course.findAll({ where: {name: name} })
+  Course.findAll({ where: {name: {[Op.substring]: name}} })
       .then(data => {
       res.send(data);
       })
