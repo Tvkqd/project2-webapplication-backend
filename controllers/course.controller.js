@@ -31,6 +31,7 @@ exports.create = (req, res) => {
         });
         });
 };
+
 // Retrieve all courses from the database.
 exports.findAll = (req, res) => {
     const course_number = req.query.course_number;
@@ -44,9 +45,40 @@ exports.findAll = (req, res) => {
             message:
             err.message || "Some error occurred while retrieving courses."
         });
-        });
+      });
 };
-// Find a single course with an course_number
+
+// Retrieve all courses from the database in a specific department.
+exports.findDept = (req, res) => {
+  const dept = req.params.dept;
+  Course.findAll({ where: {dept: dept} })
+      .then(data => {
+      res.send(data);
+      })
+      .catch(err => {
+      res.status(500).send({
+          message:
+          err.message || "Some error occurred while retrieving courses."
+      });
+    });
+};
+
+// Retrieve all courses from the database with a specific title.
+exports.findName = (req, res) => {
+  const name = req.params.name;
+  Course.findAll({ where: {name: {[Op.substring]: name}} })
+      .then(data => {
+      res.send(data);
+      })
+      .catch(err => {
+      res.status(500).send({
+          message:
+          err.message || "Some error occurred while retrieving courses."
+      });
+    });
+};
+
+// Find a single course with a course_number
 exports.findOne = (req, res) => {
     const course_number = req.params.course_number;
     Course.findByPk(course_number)
@@ -65,11 +97,11 @@ exports.findOne = (req, res) => {
         });
       });
 };
-// Update by the course_number in the request
+// Update by the id in the request
 exports.update = (req, res) => {
-    const course_number = req.params.course_number;
+    const id = req.params.id;
     Course.update(req.body, {
-      where: { course_number: course_number }
+      where: { id: id }
     })
       .then(num => {
         if (num == 1) {
@@ -78,21 +110,21 @@ exports.update = (req, res) => {
           });
         } else {
           res.send({
-            message: `Cannot update Course with course_number=${course_number}. Maybe Course was not found or req.body is empty!`
+            message: `Cannot update Course with id=${id}. Maybe Course was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error updating Course with course_number=" + course_number
+          message: "Error updating Course with id=" + id
         });
       });
 };
 // Delete with the specified course_number in the request
 exports.delete = (req, res) => {
-    const course_number = req.params.course_number;
+    const id = req.params.id;
     Course.destroy({
-      where: { course_number: course_number }
+      where: { id: id }
     })
       .then(num => {
         if (num == 1) {
@@ -100,30 +132,16 @@ exports.delete = (req, res) => {
             message: "Course was deleted successfully!"
           });
         } else {
+          console.log("error: " + num)
           res.send({
-            message: `Cannot delete Course with course_number=${course_number}. Maybe Course was not found!`
+            message: `Cannot delete Course with id=${id}. Maybe Course was not found!`
           });
         }
       })
       .catch(err => {
+        console.log("error: " + err)
         res.status(500).send({
-          message: "Could not delete Course with course_number=" + course_number
+          message: "Could not delete Course with id=" + id
         });
       });
-};
-// Delete all from the database.
-exports.deleteAll = (req, res) => {
-    Course.destroy({
-        where: {},
-        truncate: false
-      })
-        .then(nums => {
-          res.send({ message: `${nums} Courses were deleted successfully!` });
-        })
-        .catch(err => {
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while removing all courses."
-          });
-        });
 };
