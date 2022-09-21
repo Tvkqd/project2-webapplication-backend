@@ -12,9 +12,9 @@ module.exports = app => {
     router.get("/dept/:dept", courses.findDept);
     // Retrieve a single with name
     router.get("/name/:name", courses.findName);
-    // Update with course_number
-    router.put("/:course_number", courses.update);
-    // Delete with course_number
+    // Update with id
+    router.put("/:id", courses.update);
+    // Delete with id
     router.delete("/:id", courses.delete);
     app.use('/course-t1', router);
   };

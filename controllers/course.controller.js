@@ -97,11 +97,11 @@ exports.findOne = (req, res) => {
         });
       });
 };
-// Update by the course_number in the request
+// Update by the id in the request
 exports.update = (req, res) => {
-    const course_number = req.params.course_number;
+    const id = req.params.id;
     Course.update(req.body, {
-      where: { course_number: course_number }
+      where: { id: id }
     })
       .then(num => {
         if (num == 1) {
@@ -110,13 +110,13 @@ exports.update = (req, res) => {
           });
         } else {
           res.send({
-            message: `Cannot update Course with course_number=${course_number}. Maybe Course was not found or req.body is empty!`
+            message: `Cannot update Course with id=${id}. Maybe Course was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error updating Course with course_number=" + course_number
+          message: "Error updating Course with id=" + id
         });
       });
 };
